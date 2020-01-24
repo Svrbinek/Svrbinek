@@ -1,0 +1,21 @@
+# Example configuration entry
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: D4
+      mode: "INPUT_PULLUP"
+      inverted: True
+    on_press:
+      then:
+        if:
+          condition:
+            light.is_on: light.kitchen_lights
+          then:
+            - logger.log: "Vypinam světlo"
+            - light.turn_off:
+                id: light.kitchen_lights
+          else:
+            - logger.log: "Zapinam světlo"
+            - light.turn_on:
+                id: light.kitchen_lights
+                transition_length: 1ms
